@@ -1,8 +1,8 @@
 const mongoose = require('mongoose'); // sollicite le module de connexion à la BD (mongoose)
-const ObjectId = require('mongodb').ObjectID; // (?) > bug de la BD sur la casse, est-ce ok ?
+const ObjectId = require('mongodb').ObjectID;
 
 const sauceSchema = mongoose.Schema({ // schema mongoose = reflète les différents champs des formulaires du frontend
-  userId: { type: String, required: true }, // identifiant unique MongoDB pour l'utilisateur qui a créé la sauce
+  userId: { type: String, required: true },
   name: { type: String, required: true, unique: true},
   manufacturer: { type: String, required: true },
   description: { type: String, required: true },
@@ -16,7 +16,3 @@ const sauceSchema = mongoose.Schema({ // schema mongoose = reflète les différe
 });
 
 module.exports = mongoose.model('Sauce', sauceSchema); // on exporte le modèle ainsi créé
-
-// sur les pb de modèle
-// number (consignes) à mettre en Number
-// [String] (consignes) à remplacer par Array
