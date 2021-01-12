@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // pour utilier la BDD Mongo DB
+const helmet = require("helmet"); // pour éviter les injections et autres failles XSS
 const path = require('path');
 
 const sauceRoutes = require('./routes/sauce');
@@ -20,6 +21,8 @@ app.use((req, res, next) => { // "use" veut dire qu'on répond pour tout type de
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+
+app.use(helmet()); // pour utiliser helmet sur toutes les requêtes
 
 app.use(bodyParser.json());
 
