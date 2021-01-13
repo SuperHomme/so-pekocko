@@ -3,13 +3,15 @@ const jwt = require('jsonwebtoken');
 const MaskData = require('maskdata');
 
 const User = require('../models/User');
+const rot13Cipher = require('../middleware/rot13-cipher');
 
 exports.signup = (req, res, next) => {
-  const maskedEmail = MaskData.maskEmail2(req.body.email)
-  bcrypt.hash(req.body.password, 10)
+  emailBody = req.body.email.split("@");
+  bcrypt
+    .hash(req.body.password, 10)
     .then(hash => {
       const user = new User({
-        email: maskedEmail,
+        email: rot13Cipher(emailBody[0]) + "@" + emailBody[1],
         password: hash
       });
       user.save()
@@ -20,13 +22,15 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  const maskedEmail = MaskData.maskEmail2(req.body.email)
-  User.findOne({ email: maskedEmail })
+  emailBody = req.body.email.split("@");
+  User
+    .findOne({ email: rot13Cipher(emailBody[0]) + "@" + emailBody[1] })
     .then(user => {
       if (!user) {
         return res.status(401).json({ error: 'utilisateur non trouvé' });
       }
-      bcrypt.compare(req.body.password, user.password)
+      bcrypt
+        .compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
             return res.status(401).json({ error: 'mot de passe incorrect' });
