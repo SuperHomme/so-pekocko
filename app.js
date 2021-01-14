@@ -4,11 +4,12 @@ const mongoSanitize = require('express-mongo-sanitize');
 const mongoose = require('mongoose'); // pour utilier la BDD Mongo DB
 const helmet = require("helmet"); // pour éviter les injections et autres failles XSS
 const path = require('path');
+require('dotenv').config(); // permet de cacher les données d'environnement dans un fichier .env, lui même lister dans un gitignore pour eviter qu'il soit envoyer sur GitHub
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
-mongoose.connect('mongodb+srv://Ugo:javascript7@cluster0.8u2ds.mongodb.net/sopekockodb?retryWrites=true&w=majority',
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('>> connexion à MongoDB réussie !'))
