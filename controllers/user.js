@@ -4,6 +4,7 @@ const MaskData = require('maskdata');
 
 const User = require('../models/User');
 const rot13Cipher = require('../middleware/rot13-cipher');
+require('dotenv').config(); // utilisation des variables cachées
 
 exports.signup = (req, res, next) => {
   emailBody = req.body.email.split("@");
@@ -40,7 +41,7 @@ exports.login = (req, res, next) => {
             token:
               jwt.sign(
               { userId: user._id },
-              'RANDOM_TOKEN_SECRET',
+              `${process.env.TOKEN}`,
               { expiresIn: '24h' }
             )
           });
