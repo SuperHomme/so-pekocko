@@ -29,10 +29,7 @@ app.use(helmet()); // pour utiliser helmet sur toutes les requêtes
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.use(mongoSanitize());
-app.use(mongoSanitize({
-  replaceWith: '_'
-}))
+app.use(mongoSanitize({ replaceWith: '_' })) // mongoSanitize remplace les caractères non-autorisés parle caractère _
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/sauces', sauceRoutes);
